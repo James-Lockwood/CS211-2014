@@ -1,0 +1,33 @@
+
+/**
+ * Write a description of class NewYork here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class NewYork
+{
+    public static void main(String args [])
+    {
+        System.out.println(getDistance(53.3812896, -6.5918499, 40.689758, -74.045138) + " Kilometers\n");
+    }
+
+    public static double getDistance(double lat1, double long1, double lat2, double long2) {
+        double theta = long1 - long2;
+        double distance = Math.sin(degreesToRadians(lat1))*Math.sin(degreesToRadians(lat2))+Math.cos(degreesToRadians(lat1))*Math.cos(degreesToRadians(lat2))*Math.cos(degreesToRadians(theta));
+        distance = Math.acos(distance);
+        distance = radiansToDegrees(distance);
+        distance = distance*60*1.1515;
+        distance = distance*1.609344;
+        return distance;
+    }
+
+    public static double degreesToRadians(double deg) {
+        return (deg*Math.PI/180.0);
+    }
+
+    public static double radiansToDegrees(double rad) {
+        return (rad*180.0/Math.PI);
+    }
+
+}
