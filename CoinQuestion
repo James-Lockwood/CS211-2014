@@ -1,0 +1,50 @@
+
+/**
+ * Write a description of class question2 here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Coin
+{
+   public static void main(String args[])
+   {
+       Coin p1 = new Coin();
+       int num1= p1.getValue();
+       int count1 =0;
+       Coin p2 = new Coin();
+       int num2 = p2.getValue();
+       int count2 =0;
+       if(p1>p2){
+           count1++;
+           
+        }
+        else if(p2>p1)
+        {
+            count2++;
+        }
+        
+   }
+   
+   public int Coin ()
+   {
+       num = (int)(Math.random()*10);
+       
+       if(num>5)
+       {
+           return num = 1;//head
+        
+        }
+       else if(num<=5)
+       {
+           return num = 0;//tail
+           
+       }
+      
+  }
+  public int getValue()
+    {
+        return num;
+    
+    }
+   }
