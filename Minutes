@@ -1,0 +1,37 @@
+
+/**
+ * Write a description of class question1 here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class question1
+{
+   public static void main (int num)
+   {
+       int number = num ;
+       int totalMins = 1440;
+       double count =0;
+       for(int i = 0;i<=2;i++)
+       {
+           for(int j= 0;j<=9;j++)
+           {
+               if(i==2&&j==4)
+               {
+                break;}
+               for(int k= 0;k<=5;k++)
+               {
+                   for(int l= 0;l<=9;l++)
+                   {
+                     if(i+j+k+l>number)
+                      {
+                         count++;
+                     }
+                   }
+               }
+           }             
+       } 
+       double percent = (count/1440)*100;
+       System.out.println("There was " + count + " minutes which added together were greater than " + number + " which is " + percent + " % of the day");
+   }
+}
