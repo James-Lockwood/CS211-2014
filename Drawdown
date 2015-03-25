@@ -1,0 +1,294 @@
+/*
+ * The dates and value are backwards, may have to go through the arrays the other way
+ */
+public class Drawdown
+
+{
+    public static void main (String args []){
+        FileIO reader = new FileIO();
+        String [] appleValues = reader.load("C:\\Users\\James\\Documents\\COMPUTER SCIENCE\\apple.txt");
+        String [] facebookValues = reader.load("C:\\Users\\James\\Documents\\COMPUTER SCIENCE\\facebook.txt");
+        String [] dates = reader.load("C:\\Users\\James\\Documents\\COMPUTER SCIENCE\\dates.txt");
+        biggestNextLowest(dates, appleValues, facebookValues);
+        System.out.println();
+        lowestBiggestBefore(dates, appleValues, facebookValues);
+        System.out.println();
+        biggestGap(dates, appleValues, facebookValues);
+    }
+
+    public static void biggestNextLowest(String [] dates, String [] appleValues, String [] facebookValues)
+    {
+        double appleLargest =0;
+        int appleLargestSlot=0;
+        double appleLowest=0;
+        int appleLowestSlot=0;
+        double facebookLargest=0;
+        int facebookLargestSlot=0;
+        double facebookLowest=0;
+        int facebookLowestSlot=0;
+        double [] appleValues2 = new double[appleValues.length];
+        double [] facebookValues2 = new double[facebookValues.length];
+        for(int i = appleValues.length-1;i >=0 ;i--)
+        {
+            appleValues2[i] = Double.parseDouble(appleValues[i]);
+            if(appleValues2[i]>appleLargest)
+            {
+                appleLargest = appleValues2[i];
+                appleLargestSlot = i;
+            }
+        }
+        for(int i = facebookValues.length-1;i >=0 ;i--)
+        {
+            facebookValues2[i] = Double.parseDouble(facebookValues[i]);
+            if(facebookValues2[i]>facebookLargest)
+            {
+                facebookLargest = facebookValues2[i];
+                facebookLargestSlot = i;
+            }
+        }
+        appleLowest = appleLargest;
+        for(int i = appleLargestSlot;i>=0;i--)
+        {
+            if(appleValues2[i]<appleLowest)
+            {
+                appleLowest = appleValues2[i];
+                appleLowestSlot = i;
+
+            }
+        }
+        facebookLowest = facebookLargest;
+        for(int i = facebookLargestSlot;i>=0;i--)
+        {
+
+            if(facebookValues2[i]<facebookLowest)
+            {
+                facebookLowest = facebookValues2[i];
+                facebookLowestSlot = i;
+            }
+        }
+        double appleLoss = ((appleLargest-appleLowest)/appleLargest)*100;
+        double facebookLoss = ((facebookLargest-facebookLowest)/facebookLargest)*100;
+        System.out.println("Facebook high : "+ facebookLargest + " on : " + dates[facebookLargestSlot] + " Facebook low : " + facebookLowest + " on : " + dates[facebookLowestSlot] + " loss of " + facebookLoss  + "%" );
+        System.out.println("Apple high : " + appleLargest + " on : " + dates[appleLargestSlot] + " Apple low : " + appleLowest + " on : " + dates[appleLowestSlot] + " loss of " + appleLoss + "%");
+    }
+
+    public static void lowestBiggestBefore(String [] dates, String [] appleValues, String [] facebookValues)
+    {
+        double appleLargest =0;
+        int appleLargestSlot=0;
+        int appleLowestSlot=0;
+        double facebookLargest=0;
+        int facebookLargestSlot=0;
+        int facebookLowestSlot=0;
+        double [] appleValues2 = new double[appleValues.length];
+        double [] facebookValues2 = new double[facebookValues.length];
+        for(int i = appleValues.length-1;i >=0 ;i--)
+        {
+            appleValues2[i] = Double.parseDouble(appleValues[i]);
+        }
+        double appleLowest=appleValues2[0];
+        for(int i = appleValues2.length-1;i >=0 ;i--)
+        {
+            if(appleValues2[i]<appleLowest)
+            {
+                appleLowest = appleValues2[i];
+                appleLowestSlot = i;
+            }
+        }
+
+        for(int i = appleValues2.length-1;i>appleLowestSlot;i--)
+        {
+            if(appleValues2[i]>appleLargest)
+            {
+                appleLargest = appleValues2[i];
+                appleLargestSlot = i;
+
+            }
+        }
+
+        for(int i = facebookValues2.length-1;i >=0 ;i--)
+        {
+            facebookValues2[i] = Double.parseDouble(facebookValues[i]);
+
+        }
+        for(int i = facebookValues2.length-1;i >=0 ;i--)
+        {
+            facebookValues2[i] = Double.parseDouble(facebookValues[i]);
+
+        }
+        double facebookLowest=facebookValues2[0];
+        for(int i = facebookValues2.length-1;i >=0 ;i--)
+        {
+            if(facebookValues2[i]<facebookLowest)
+            {
+                facebookLowest = facebookValues2[i];
+                facebookLowestSlot = i;
+            }
+        }
+
+        for(int i = facebookValues2.length-1;i>facebookLowestSlot;i--)
+        {
+            if(facebookValues2[i]>facebookLargest)
+            {
+                facebookLargest = facebookValues2[i];
+                facebookLargestSlot = i;
+
+            }
+        }
+
+        double appleLoss = ((appleLargest-appleLowest)/appleLargest)*100;
+        double facebookLoss = ((facebookLargest-facebookLowest)/facebookLargest)*100;
+        System.out.println("Facebook high : "+ facebookLargest + " on : " + dates[facebookLargestSlot] + " Facebook low : " + facebookLowest + " on : " + dates[facebookLowestSlot] + " loss of " + facebookLoss  + "%" );
+        System.out.println("Apple high : " + appleLargest + " on : " + dates[appleLargestSlot] + " Apple low : " + appleLowest + " on : " + dates[appleLowestSlot] + " loss of " + appleLoss + "%");
+    }
+
+    public static void biggestGap(String [] dates, String [] appleValues, String [] facebookValues)
+    {
+        double appleSecond=0;
+        int appleSecondSlot=0;
+        double appleGap =0;
+        double appleBiggestGap=0;
+        double appleGapFirst = 0;
+        double appleGapSecond=0;
+        int appleGapFirstSlot = 0;
+        int appleGapSecondSlot = 0;
+        double facebookSecond=0;
+        int facebookSecondSlot=0;
+        double facebookGap =0;
+        double facebookBiggestGap=0;
+        double facebookGapFirst = 0;
+        double facebookGapSecond=0;
+        int facebookGapFirstSlot = 0;
+        int facebookGapSecondSlot = 0;
+
+        double [] appleValues2 = new double[appleValues.length];
+        double [] facebookValues2 = new double[facebookValues.length];
+        for(int i = appleValues.length-1;i >=0 ;i--)
+        {
+            appleValues2[i] = Double.parseDouble(appleValues[i]);
+
+        }
+        for(int i = appleValues2.length-2;i >0 ;i--){
+
+            if(appleValues2[i-1]<appleValues2[i]&&appleValues2[i+1]<appleValues2[i])
+            {
+               
+                for(int j = i;j >=0 ;j--)
+                {
+                    if(appleValues2[j-1]>appleValues2[j]&&appleValues2[j+1]>appleValues2[j])
+                    {
+                        appleSecondSlot = j;
+                        appleSecond = appleValues2[j];
+                        appleGap = appleValues2[i] - appleSecond;
+                        break;
+                    }
+                }
+                if(appleGap>appleBiggestGap)
+                {
+                    appleBiggestGap = appleGap;
+                    appleGapFirst = appleValues2[i];
+                    appleGapSecond = appleSecond;
+                    appleGapFirstSlot = i;
+                    appleGapSecondSlot = appleSecondSlot;
+                }
+            }
+
+        }
+       
+        for(int i = facebookValues.length-1;i >=0 ;i--)
+        {
+            facebookValues2[i] = Double.parseDouble(facebookValues[i]);
+
+        }
+        for(int i = facebookValues2.length-2;i >0 ;i--){
+
+            if(facebookValues2[i-1]<facebookValues2[i]&&facebookValues2[i+1]<facebookValues2[i])
+            {
+
+                
+                for(int j = i;j >=0 ;j--)
+                {
+                    if(facebookValues2[j-1]>facebookValues2[j]&&facebookValues2[j+1]>facebookValues2[j])
+                    {
+                        facebookSecondSlot = j;
+                        facebookSecond = facebookValues2[j];
+                        facebookGap = facebookValues2[i] - facebookSecond;
+                        break;
+                    }
+                }
+                if(facebookGap>facebookBiggestGap)
+                {
+                    facebookBiggestGap = facebookGap;
+                    facebookGapFirst = facebookValues2[i];
+                    facebookGapSecond = facebookSecond;
+                    facebookGapFirstSlot = i;
+                    facebookGapSecondSlot = facebookSecondSlot;
+                }
+            }
+
+        }
+        double appleLoss = ((appleGapFirst-appleGapSecond)/appleGapFirst)*100;
+
+        double facebookLoss = ((facebookGapFirst-facebookGapSecond)/facebookGapFirst)*100;
+        System.out.println("facebook high : " + facebookGapFirst + " on : " + dates[facebookGapFirstSlot] + " facebook low : " + facebookGapSecond + " on : " + dates[facebookGapSecondSlot] + " loss of " + facebookLoss + "%");
+        System.out.println("Apple high : " + appleGapFirst + " on : " + dates[appleGapFirstSlot] + " Apple low : " + appleGapSecond + " on : " + dates[appleGapSecondSlot] + " loss of " + appleLoss + "%");
+    }
+}
+
+import java.io.*;
+public class FileIO{
+
+  public String[] load(String file) {
+    File aFile = new File(file);     
+    StringBuffer contents = new StringBuffer();
+    BufferedReader input = null;
+    try {
+      input = new BufferedReader( new FileReader(aFile) );
+      String line = null; 
+      int i = 0;
+      while (( line = input.readLine()) != null){
+        contents.append(line);
+        i++;
+        contents.append(System.getProperty("line.separator"));
+      }
+    }
+    catch (FileNotFoundException ex) {
+      System.out.println("Can't find the file - are you sure the file is in this location: "+file);
+      ex.printStackTrace();
+    }
+    catch (IOException ex){
+      System.out.println("Input output exception while processing file");
+      ex.printStackTrace();
+    }
+    finally {
+      try {
+        if (input!= null) {
+          input.close();
+        }
+      }
+      catch (IOException ex) {
+        System.out.println("Input output exception while processing file");
+        ex.printStackTrace();
+      }
+    }
+    String[] array = contents.toString().split("\n");
+    return array;
+  }
+
+
+  public void save(String file, String[] array) throws FileNotFoundException, IOException {
+
+    File aFile = new File(file); 
+    Writer output = null;
+    try {
+      output = new BufferedWriter( new FileWriter(aFile) );
+      for(int i=0;i<array.length;i++){
+        output.write( array[i] );
+        output.write(System.getProperty("line.separator"));
+      }
+    }
+    finally {
+      if (output != null) output.close();
+    }
+  }
+}
