@@ -1,0 +1,203 @@
+public class Working{ 
+
+    public static void main(String args[])
+    {
+        FileIO reader = new FileIO();
+        String [] latitudes = reader.load("C:\\Users\\James\\Documents\\COMPUTER SCIENCE\\Friday Lat.txt");
+        String [] longtitudes = reader.load("C:\\Users\\James\\Documents\\COMPUTER SCIENCE\\Friday Long.txt");
+        String names[] = reader.load("C:\\Users\\James\\Documents\\COMPUTER SCIENCE\\Friday Towns.txt");
+        double lat [] = convert(latitudes);
+        double lon [] = convert(longtitudes);
+        double shortestLength = 10000;
+        int [] path = new int[names.length+1];
+        for(int i=0;i<names.length;i++){
+            double[][] matrix = fillMatrix(lat,lon);
+            double comparisonLength = calculateLength(matrix,names,i);
+            if(comparisonLength<shortestLength)
+            {
+                shortestLength = comparisonLength;
+                double[][] matrix2 = fillMatrix(lat,lon);
+                path = calculatePath(matrix2,names,i);
+            }
+            
+        }
+        System.out.println(shortestLength);
+        for(int t=0;t<path.length;t++)
+        {
+            System.out.print(path[t]+ ".");
+        }
+    }
+   
+    public static double calculateLength(double[][]matrix, String [] names, int beginning){
+        int [] path = new int[names.length];
+        double length =0;
+        double shortestLength=10000;
+        int start =beginning;
+        int next = 0;
+        int previous =0;
+        int count =0;
+        int counter=0;
+        for(int i = 0;i<matrix.length;i++)
+        {
+            for(int j =0;j<matrix.length;j++)
+            {
+                if(count!=(matrix.length-1)&&matrix[start][j]<shortestLength&&j!=previous&&j!=beginning)
+                {
+                    shortestLength = matrix[start][j];
+                    next = j;
+                    path[i]=start+1;
+                    previous = start;
+                }
+                else if(count==(matrix.length-1)&&j!=previous)
+                {
+                    shortestLength = matrix[start][beginning];
+                    next =beginning;
+                    path[i]=next+1;
+                    break;
+                }
+                matrix[start][j] = 10000;
+                if(count!=0){
+                    matrix[j][start] = 10000;
+                }
+            }
+            count++;
+            length = length + shortestLength;
+            start = next;
+            shortestLength = 10000;
+        }
+        return length;
+    }
+
+    public static int[] calculatePath(double[][]matrix, String [] names, int beginning){
+        int [] path = new int[names.length+1];
+        double length =0;
+        double shortestLength=10000;
+        int start =beginning;
+        int next = 0;
+        int previous =0;
+        int count =0;
+        int counter=0;
+        for(int i = 0;i<matrix.length;i++)
+        {
+            for(int j =0;j<matrix.length;j++)
+            {
+                if(count!=(matrix.length-1)&&matrix[start][j]<shortestLength&&j!=previous&&j!=beginning)
+                {
+                    shortestLength = matrix[start][j];
+                    next = j;
+                    previous = start;
+                }
+                else if(count==(matrix.length-1)&&j!=previous)
+                {
+                    shortestLength = matrix[start][beginning];
+                    next =beginning;
+                    break;
+                }
+                matrix[start][j] = 10000;
+                if(count!=0){
+                    matrix[j][start] = 10000;
+                }
+            }
+            count++;
+            length = length + shortestLength;
+            path[i]=start+1;
+            start = next;
+            shortestLength = 10000;
+        }
+        path[path.length-1]=beginning+1;
+        return path;
+    }
+
+    public static double [][] fillMatrix (double [] matrix, double [] matrix2){
+        double[][] distanceMatrix = new double[matrix.length][matrix2.length];
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix.length;j++){
+                if(i!=j){
+                    distanceMatrix[i][j]=getDistance(matrix[i],matrix2[i],matrix[j],matrix2[j]);
+                }
+                else {
+                    distanceMatrix[i][j]=99999;
+                }
+            }
+        }
+        return distanceMatrix;
+    }
+
+    public static double getDistance(double lat1, double lon1, double lat2, double lon2){
+        double R = 6371;
+        double dLat = Math.toRadians((lat2-lat1));
+        double dLon = Math.toRadians((lon2-lon1));
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c;
+        return d;
+    }
+   
+    public static double [] convert(String [] matrix)
+    {   
+        double matrix2 [] = new double[matrix.length];
+        for(int i =0;i<matrix.length;i++){
+            matrix2[i] = Double.parseDouble(matrix[i]);
+        }
+        return matrix2;
+    }
+}
+
+
+import java.io.*;
+public class FileIO{
+
+  public String[] load(String file) {
+    File aFile = new File(file);     
+    StringBuffer contents = new StringBuffer();
+    BufferedReader input = null;
+    try {
+      input = new BufferedReader( new FileReader(aFile) );
+      String line = null; 
+      int i = 0;
+      while (( line = input.readLine()) != null){
+        contents.append(line);
+        i++;
+        contents.append(System.getProperty("line.separator"));
+      }
+    }
+    catch (FileNotFoundException ex) {
+      System.out.println("Can't find the file - are you sure the file is in this location: "+file);
+      ex.printStackTrace();
+    }
+    catch (IOException ex){
+      System.out.println("Input output exception while processing file");
+      ex.printStackTrace();
+    }
+    finally {
+      try {
+        if (input!= null) {
+          input.close();
+        }
+      }
+      catch (IOException ex) {
+        System.out.println("Input output exception while processing file");
+        ex.printStackTrace();
+      }
+    }
+    String[] array = contents.toString().split("\n");
+    return array;
+  }
+
+
+  public void save(String file, String[] array) throws FileNotFoundException, IOException {
+
+    File aFile = new File(file); 
+    Writer output = null;
+    try {
+      output = new BufferedWriter( new FileWriter(aFile) );
+      for(int i=0;i<array.length;i++){
+        output.write( array[i] );
+        output.write(System.getProperty("line.separator"));
+      }
+    }
+    finally {
+      if (output != null) output.close();
+    }
+  }
+}
