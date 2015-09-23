@@ -73,7 +73,7 @@ Why don’t we use chemical reactions like this in computers? Cause its slow!
 We can change 2 things, the weight or the threshold. 
 For our example we'll set theata = -w<sup>(0)</sup> and x<sup>(0)</sup> = 1
 
-ŷ = sign(∑(j=0,n) w<sup>(i)</sup>*x<sup>(i)</sup>)  (we'll call the bit in brackets z ie. z = ∑(j=0,n) w<sup>(j)</sup>*x^<sup>(j)</sup>)
+ŷ = sign(∑(j=0,n) w<sup>(i)</sup>*x<sup>(i)</sup>)  (we'll call the bit in brackets z ie. z = ∑(j=0,n) w<sup>(j)</sup>*x<sup>(j)</sup>)
 
 Imagine we have a LEARN button on the machine, if this is pressed it can do 2 things:
 If ŷ and y are the same, do nothing. Otherwise adjust the weigths accordingly.
@@ -120,18 +120,27 @@ We want to move w towards x.
 
 w̃(t+1) =  w(t) - δ*x
 
-We want to solve: (w + δx) . x = 0 (ie. solve for 0)  (the dots on this and the next few lines represent dot products)
+w(t+1) =w̃(t+1)/w̃(t+1)
+
+We want to solve: (w + δx) . x = 0 (ie. solve for 0)  
+(the dots on this and the next few lines represent dot products)
+
 w.x + δ*x.x = 0
+
 w.x + δ||x||^2 = 0
+
 δ = w.x/||x||^2  (this would be just on the seperation plane)
+
 δ = - w.x/||x||^2 + d (the plus d ensures its just over the sepreration plane)
 
 
 To make it work for both cases:
+
 δ = (-w.x/||x||^2 + d)*y
+
 δ = (-w.x/||x||^2 + d)*(y-ŷ/2)  (this accounts for the do nothing case
 
-What δ? Normailse w? Not much differnce, convinient not too big or small
+What δ? Should we normailse w? Turns out theres not much differnce, convinient not too big or small.
 
 If the output is wrong, press learn and it'll be right next time.
 If it sees all inputs it'll get all of the outputs right.
