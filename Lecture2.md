@@ -1,10 +1,12 @@
 #Types of Machine Learning
 
 1. Supervised 
-* Perceptron 
 2. Unsupervised
 3. Hybrid-RL
 
+Perceptron fits under supervised.
+
+#Perceptron
 
 
 ![alt text](https://dwave.files.wordpress.com/2011/05/qc_ai_diag1b.jpg "Picture of peceptron")
@@ -28,8 +30,8 @@ Usually we have some error measure, usually a fraction of what it gets right, we
 
 E = error over entire training set
 
-E = 1/m(∑ i=0, m-1, E<sup>(i)</sup>)  sum over all cases or average, where m is the number of inputs
-  = 1/m ∑(i) E<sup>(i)</sup>
+E = 1/m(∑(i=0, m-1) E<sup>(i)</sup>)  sum over all cases or average, where m is the number of inputs
+  = 1/m( ∑(i) E<sup>(i)</sup>)
   = <∑<sup>(i)</sup>>    average over i
 
 #Construction of Perceptron
