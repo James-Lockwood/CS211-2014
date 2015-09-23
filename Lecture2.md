@@ -18,7 +18,7 @@ Output: ŷ (what the machine spits out)
 
 Correct: y<sup>(i)</sup> (what the machine should say)
 
-Dials/knobs - weights <sup>(i)</sup>,  w is a vector of numbers usually but could be a data structure, or many seperate vectors but we'll treat it as one 
+Dials/knobs - weights,  w<sup>(i)</sup> is a vector of numbers usually but could be a data structure, or many seperate vectors but we'll treat it as one 
 
 You can turn and fiddle with the dials to make things nice, usually by some objective function.
 Try hard to get the correct answer - non-objective, this is what it used to be, they used rule of thumb.
